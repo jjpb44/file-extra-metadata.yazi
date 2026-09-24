@@ -264,7 +264,8 @@ function M:render_table(job, opts)
 	-- t e: hide extensions (sentinel written by ext-toggle plugin) — an empty
 	-- extension string suppresses the suffix so both panes stay in sync
 	local hide_ext = io.open("/tmp/yazi-ext-hidden", "r") ~= nil
-	local file_name_extension = hide_ext and ""
+	-- files only: directories keep the trailing "…" marker
+	local file_name_extension = (hide_ext and not job.file.cha.is_dir) and ""
 		or (job.file.cha.is_dir and "…" or ("." .. (job.file.url.ext or "")))
 
 	local row = function(key, value)
